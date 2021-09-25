@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Related_and_Minimum_Automata", "Related_and_Minimum_Automata\Related_and_Minimum_Automata.csproj", "{BFCC00E5-C287-4608-8BE2-8D58DE9EAE13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFCC00E5-C287-4608-8BE2-8D58DE9EAE13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFCC00E5-C287-4608-8BE2-8D58DE9EAE13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFCC00E5-C287-4608-8BE2-8D58DE9EAE13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFCC00E5-C287-4608-8BE2-8D58DE9EAE13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31BF71B4-D713-4E39-857C-1D68CE65837D}
+	EndGlobalSection
+EndGlobal
