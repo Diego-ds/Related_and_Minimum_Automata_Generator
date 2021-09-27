@@ -90,6 +90,9 @@
     <EmbeddedResource Include="ui\EnterAutomata.resx">
       <DependentUpon>EnterAutomata.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ui\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ui\MealyTransitions.resx">
       <DependentUpon>MealyTransitions.cs</DependentUpon>
     </EmbeddedResource>
