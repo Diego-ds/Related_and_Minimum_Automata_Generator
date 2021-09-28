@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="model\MachineController.cs" />
+    <Compile Include="model\MealyMachine.cs" />
+    <Compile Include="model\MealyState.cs" />
+    <Compile Include="model\MealyTransition.cs" />
+    <Compile Include="model\MooreMachine.cs" />
+    <Compile Include="model\MooreState.cs" />
     <Compile Include="ui\EnterAutomata.cs">
       <SubType>UserControl</SubType>
     </Compile>

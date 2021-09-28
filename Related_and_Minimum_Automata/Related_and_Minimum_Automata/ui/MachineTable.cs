@@ -112,5 +112,7 @@ namespace Related_and_Minimum_Automata.ui
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
         }
+
+        public void readRows
     }
 }

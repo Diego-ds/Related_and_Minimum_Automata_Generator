@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace MealyState.model
+namespace Related_and_Minimum_Automata.model
 {
 	public class MealyState
 	{
 		private string identifier;
 		List<MealyTransition> transitions;
 
-		public MooreState(string identifier)
+		public MealyState(string identifier)
 		{
 			this.identifier = identifier;
 			transitions = new List<MealyTransition>();
