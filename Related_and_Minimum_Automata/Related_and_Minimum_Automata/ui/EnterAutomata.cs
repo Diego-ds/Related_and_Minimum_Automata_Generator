@@ -23,22 +23,22 @@ namespace Related_and_Minimum_Automata.ui
             InputsTextBox.Text = "";
         }
 
-        public Tuple<String, Tuple<int, int>> GetMachineComponents()
+        public Tuple<string, Tuple<int, int>> GetMachineComponents()
         {
-
-            String machineType = TypeAutomataComboBox.SelectedItem.ToString();
-            if (machineType != "Mealy" || machineType != "Moore") 
+            string machineType = TypeAutomataComboBox.Text;
+            Console.WriteLine(machineType);
+            if (machineType != "Mealy" && machineType != "Moore") 
             {
                 MessageBox.Show("Please select Mealy or Moore on the first field.", "Error: Wrong input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            else if (StatesTextBox.Text.Any(char.IsDigit) || InputsTextBox.Text.Any(char.IsDigit))
+            else if (!StatesTextBox.Text.All(char.IsDigit) || !InputsTextBox.Text.All(char.IsDigit))
             {
-                MessageBox.Show("Please select Mealy or Moore on the first field.", "Error: Wrong input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Please only enter integers in the states and inputs fields.", "Error: Wrong input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else
             {
                 Tuple<int, int> statesAndInputs = new Tuple<int, int>(int.Parse(StatesTextBox.Text), int.Parse(InputsTextBox.Text));
-                return new Tuple<String, Tuple<int, int>>(machineType, statesAndInputs);
+                return new Tuple<string, Tuple<int, int>>(machineType, statesAndInputs);
             }
             return null; 
         }

@@ -30,12 +30,22 @@ namespace Related_and_Minimum_Automata.ui
                 enterAutomata1.Visible = false;
                 ReduceMachineButton.Visible = true;
                 machineTable1.Visible = true;
+                BackButton.Visible = true;
             }
         }
 
         private void ReduceMachineButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            OpenTableButton.Visible = true;
+            enterAutomata1.Visible = true;
+            ReduceMachineButton.Visible = false;
+            machineTable1.Visible = false;
+            BackButton.Visible = false;
         }
     }
 }

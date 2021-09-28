@@ -29,26 +29,12 @@ namespace Related_and_Minimum_Automata.ui
         /// </summary>
         private void InitializeComponent()
         {
-            this.enterAutomata1 = new Related_and_Minimum_Automata.ui.EnterAutomata();
-            this.machineTable1 = new Related_and_Minimum_Automata.ui.MachineTable();
             this.ReduceMachineButton = new System.Windows.Forms.Button();
             this.OpenTableButton = new System.Windows.Forms.Button();
+            this.BackButton = new System.Windows.Forms.Button();
+            this.machineTable1 = new Related_and_Minimum_Automata.ui.MachineTable();
+            this.enterAutomata1 = new Related_and_Minimum_Automata.ui.EnterAutomata();
             this.SuspendLayout();
-            // 
-            // enterAutomata1
-            // 
-            this.enterAutomata1.Location = new System.Drawing.Point(136, 12);
-            this.enterAutomata1.Name = "enterAutomata1";
-            this.enterAutomata1.Size = new System.Drawing.Size(370, 320);
-            this.enterAutomata1.TabIndex = 0;
-            // 
-            // machineTable1
-            // 
-            this.machineTable1.Location = new System.Drawing.Point(51, 34);
-            this.machineTable1.Name = "machineTable1";
-            this.machineTable1.Size = new System.Drawing.Size(550, 263);
-            this.machineTable1.TabIndex = 1;
-            this.machineTable1.Visible = false;
             // 
             // ReduceMachineButton
             // 
@@ -73,11 +59,39 @@ namespace Related_and_Minimum_Automata.ui
             this.OpenTableButton.UseVisualStyleBackColor = true;
             this.OpenTableButton.Click += new System.EventHandler(this.OpenTableButton_Click);
             // 
+            // BackButton
+            // 
+            this.BackButton.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.BackButton.Location = new System.Drawing.Point(51, 350);
+            this.BackButton.Name = "BackButton";
+            this.BackButton.Size = new System.Drawing.Size(83, 34);
+            this.BackButton.TabIndex = 5;
+            this.BackButton.Text = "<-- Back";
+            this.BackButton.UseVisualStyleBackColor = true;
+            this.BackButton.Visible = false;
+            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
+            // 
+            // machineTable1
+            // 
+            this.machineTable1.Location = new System.Drawing.Point(51, 34);
+            this.machineTable1.Name = "machineTable1";
+            this.machineTable1.Size = new System.Drawing.Size(550, 201);
+            this.machineTable1.TabIndex = 1;
+            this.machineTable1.Visible = false;
+            // 
+            // enterAutomata1
+            // 
+            this.enterAutomata1.Location = new System.Drawing.Point(136, 12);
+            this.enterAutomata1.Name = "enterAutomata1";
+            this.enterAutomata1.Size = new System.Drawing.Size(370, 320);
+            this.enterAutomata1.TabIndex = 0;
+            // 
             // FiniteStateMachine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(649, 409);
+            this.Controls.Add(this.BackButton);
             this.Controls.Add(this.OpenTableButton);
             this.Controls.Add(this.ReduceMachineButton);
             this.Controls.Add(this.machineTable1);
@@ -94,5 +108,6 @@ namespace Related_and_Minimum_Automata.ui
         private MachineTable machineTable1;
         private System.Windows.Forms.Button ReduceMachineButton;
         private System.Windows.Forms.Button OpenTableButton;
+        private System.Windows.Forms.Button BackButton;
     }
 }
