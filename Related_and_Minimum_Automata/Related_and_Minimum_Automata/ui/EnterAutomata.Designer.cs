@@ -42,11 +42,11 @@ namespace Related_and_Minimum_Automata.ui
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 15F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(94, 32);
+            this.label1.Location = new System.Drawing.Point(108, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(179, 28);
+            this.label1.Size = new System.Drawing.Size(158, 28);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Enter an automata";
+            this.label1.Text = "Enter a machine";
             // 
             // label2
             // 
