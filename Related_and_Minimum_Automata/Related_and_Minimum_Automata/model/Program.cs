@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Related_and_Minimum_Automata.ui;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Related_and_Minimum_Automata
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new FiniteStateMachine());
         }
     }
 }
