@@ -8,22 +8,30 @@ namespace Related_and_Minimum_Automata.model
 {
     class MooreMachine
     {
-		private List<MooreState> states;
-		private List<string> inputs;
-		private List<string> outputs;
-		private MooreState initial;
+		public List<MooreState> States { get; set; }
+		public List<string> Inputs { get; set; }
+		public List<string> Outputs { get; set; }
+		public MooreState Initial { get; set; }
 
 		public MooreMachine()
 		{
-			this.states = new List<MooreState>();
-			this.inputs = new List<string>();
-			this.outputs = new List<string>();
-			this.initial = null;
+			this.States = new List<MooreState>();
+			this.Inputs = new List<string>();
+			this.Outputs = new List<string>();
+			this.Initial = null;
 		}
 
-		public List<string> GetConnectedStates()
+		//Searches the connected states with DFS
+		public List<MooreState> GetConnectedStates()
 		{
+			List<MooreState> connectedStates = new List<MooreState>();
 
+			if (Initial != null)
+            {
+				connectedStates = Initial.GetAllTransitions();
+            }
+
+			return connectedStates;
 		}
 
 		public List<string> GetDisconnectedStates()
@@ -36,9 +44,64 @@ namespace Related_and_Minimum_Automata.model
 
 		}
 
-		public void setMachine(List<MooreState> states, List<string> inputs, )
+		public bool RemoveState(string toRemove)
         {
+			MooreState removedState = SearchState(toRemove);
 
+			if (removedState != null)
+            {
+				States.Remove(removedState);
+				return true;
+            } 
+			else
+            {
+				return false;
+            }
+        }
+
+		public void addState(MooreState toAdd)
+        {
+			if (Initial == null)
+            {
+				Initial = toAdd;
+				States.Add(Initial);
+            }
+			else
+            {
+				States.Add(toAdd);
+            }
+        }
+
+		public bool AddTransition(string origin, string end)
+        { 
+			MooreState originState = SearchState(origin);
+			MooreState endState = SearchState(origin);
+
+			if (originState != null && endState != null)
+            {
+				originState.AddTransition(endState);
+				return true;
+            }
+            else
+            {
+				return false;
+			}	
+		}
+
+		public MooreState SearchState(string toSearch)
+        {
+			MooreState desiredState = null;
+
+			foreach (MooreState state in States)
+            {
+				if (state.Identifier.Equals(toSearch))
+                {
+					desiredState = state;
+					break;
+                }
+            }
+
+			return desiredState;
         }
 	}
 }

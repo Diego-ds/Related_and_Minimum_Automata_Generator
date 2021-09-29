@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 namespace Related_and_Minimum_Automata.model
-{ 
+{
 	public class MooreState
 	{
-		private string identifier;
-		private string output;
-		public List<MooreState> transitions { get; set; }
+		public string Identifier { get; set; }
+		public string Output { get; set; }
+		public List<MooreState> Transitions { get; set; }
 
 		public MooreState(string identifier, string output)
 		{
-			this.identifier = identifier;
-			this.output = output;
-			transitions = new List<MooreState>();
+			this.Identifier = identifier;
+			this.Output = output;
+			Transitions = new List<MooreState>();
 		}
 
-		public void AddTransition (MooreState toAdd)
+		public void AddTransition(MooreState toAdd)
+		{
+			Transitions.Add(toAdd);
+		}
+
+		public void SearchState(string toSearch)
         {
-			transitions.Add(toAdd);
+            foreach ()
+            {
+
+            }
         }
 
-		public void RemoveTransition(MooreState toRemove)
+		public List<MooreState> GetAllTransitions(List<MooreState> currentTransitions)
         {
-			transitions.Remove(toRemove);
+			if (Transitions != null)
+            {
+
+            }
         }
 	}
 }
