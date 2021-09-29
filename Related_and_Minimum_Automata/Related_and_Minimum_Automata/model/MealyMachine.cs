@@ -85,5 +85,13 @@ namespace Related_and_Minimum_Automata.model
             }
 			return m;
         }
+		public void CleanMachine()
+		{
+			Inputs.Clear();
+			States.Clear();
+			Outputs.Clear();
+			Initial = null;
+		}
 	}
+
 }
