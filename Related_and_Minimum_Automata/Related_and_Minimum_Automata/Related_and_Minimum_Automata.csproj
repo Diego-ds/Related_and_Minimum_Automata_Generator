@@ -52,6 +52,7 @@
     <Compile Include="model\MealyTransition.cs" />
     <Compile Include="model\MooreMachine.cs" />
     <Compile Include="model\MooreState.cs" />
+    <Compile Include="model\MooreTransition.cs" />
     <Compile Include="ui\EnterAutomata.cs">
       <SubType>UserControl</SubType>
     </Compile>

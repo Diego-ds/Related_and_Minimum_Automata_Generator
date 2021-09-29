@@ -6,16 +6,17 @@ namespace Related_and_Minimum_Automata.model
 	{
 		public string Identifier { get; set; }
 		public string Output { get; set; }
-		public List<MooreState> Transitions { get; set; }
+		public List<MooreTransition> Transitions { get; set; }
 
+		public List<int> Input;
 		public MooreState(string identifier, string output)
 		{
 			this.Identifier = identifier;
 			this.Output = output;
-			Transitions = new List<MooreState>();
+			Transitions = new List<MooreTransition>();
 		}
 
-		public void AddTransition(MooreState toAdd)
+		public void AddTransition(MooreTransition toAdd)
 		{
 			Transitions.Add(toAdd);
 		}
@@ -28,7 +29,7 @@ namespace Related_and_Minimum_Automata.model
             }
         }
 
-		public List<MooreState> GetAllTransitions(List<MooreState> currentTransitions)
+		public List<MooreState> GetAllTransitions(List<MooreTransition> currentTransitions)
         {
 			if (Transitions != null)
             {

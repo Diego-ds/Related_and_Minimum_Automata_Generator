@@ -85,6 +85,24 @@ namespace Related_and_Minimum_Automata.model
             }
 			return m;
         }
+
+		public void LoadMachine(List<string[]> rows)
+		{
+			LoadTransitions(rows);
+		}
+
+		public void LoadTransitions(List<string[]> rows)
+		{
+			foreach (string[] row in rows)
+			{
+				for (int i = 1; i < row.Length - 2; i++)
+				{
+					string[] objectiveAndOutput = row[i].Split(',');
+					AddTransition(row[0], objectiveAndOutput[0], Convert.ToString(i - 1), objectiveAndOutput[1]);
+				}
+			}
+		}
+
 		public void CleanMachine()
 		{
 			Inputs.Clear();

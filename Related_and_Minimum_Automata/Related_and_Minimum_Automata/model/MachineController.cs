@@ -19,9 +19,16 @@ namespace Related_and_Minimum_Automata.model
             CurrentMachine = "";
         }
 
-        public void loadMachine()
+        public void LoadMachine(List<string[]> rows)
         {
-
+            if (CurrentMachine.Equals("Moore"))
+            {
+                MooreMachine.LoadMachine(rows);
+            }
+            else if (CurrentMachine.Equals("Mealy"))
+            {
+                MealyMachine.LoadMachine(rows);
+            }
         }
         
         public void SetMealyStatesAndInputs(int states,int inputs)
