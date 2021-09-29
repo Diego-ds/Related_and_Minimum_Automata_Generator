@@ -113,6 +113,19 @@ namespace Related_and_Minimum_Automata.ui
             }
         }
 
-        public void readRows
+        public List<string[]> GetRowsData()
+        {
+            List<string[]> rows = new List<string[]>();
+
+            foreach(DataGridViewRow row in TableMachine.Rows)
+            {
+                string[] rowToAdd = new string[row.Cells.Count-1];
+                for(int i = 0; i < row.Cells.Count-1; i++)
+                {
+                    rowToAdd[i] = row.Cells[i].Value.ToString();
+                }
+            }
+            return rows;
+        }
     }
 }
