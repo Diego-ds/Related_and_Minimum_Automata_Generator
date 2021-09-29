@@ -5,15 +5,15 @@ namespace Related_and_Minimum_Automata.model
 {
 	public class MealyTransition
 	{
-		private MealyState objective;
-		private String input;
-		private String output;
+		public MealyState Objective { get; set; }
+		public String Input { get; set; }
+		public String Output { get; set; }
 
 		public MealyTransition(MealyState objective, String input, String output)
 		{
-			this.objective = objective;
-			this.input = input;
-			this.output = output;
+			Objective = objective;
+			Input = input;
+			Output = output;
 		}
 	}
 }
