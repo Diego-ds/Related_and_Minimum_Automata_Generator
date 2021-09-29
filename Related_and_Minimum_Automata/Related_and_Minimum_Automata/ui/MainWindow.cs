@@ -49,7 +49,9 @@ namespace Related_and_Minimum_Automata.ui
 
         private void ReduceMachineButton_Click(object sender, EventArgs e)
         {
-
+            controller.LoadMachine(machineTable1.GetRowsData()); 
+            //partition
+            //load DataGridView
         }
 
         private void BackButton_Click(object sender, EventArgs e)
