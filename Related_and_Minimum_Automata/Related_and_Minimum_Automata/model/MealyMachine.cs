@@ -21,20 +21,48 @@ namespace Related_and_Minimum_Automata.model
 			Initial = null;
 		}
 
-		public List<string> GetConnectedStates()
-		{
-			
-		}
+		private List<MealyState> ConnectedStates()
+        {
+			List<MealyState> connStates = new List<MealyState>();
+            if (Initial == null)
+            {
+				return null;
+            }
+            else
+            {
+				return GetConnectedStates(Initial,connStates);
+            }
 
-		public List<string> GetDisconnectedStates()
-		{
+        }
 
-		}
+		private List<MealyState> GetConnectedStates(MealyState current, List<MealyState> connStates)
+        {
+			connStates.Add(current);
+			Console.WriteLine("Founded state: "+current.Identifier);
+
+			foreach(MealyTransition t in current.Transitions)
+            {
+                if (!connStates.Contains(t.Objective))
+                {
+					return GetConnectedStates(t.Objective, connStates);
+                }
+            }
+
+			return connStates;
+        }
 
 		public void RemoveDisconnectedStates()
-		{
+        {
+			List<MealyState> connStates = ConnectedStates();
 
-		}
+			foreach(MealyState state in States)
+            {
+                if (!connStates.Contains(state))
+                {
+					States.Remove(state);
+                }
+            }
+        }
 
 		public void AddState(MealyState toAdd)
         {

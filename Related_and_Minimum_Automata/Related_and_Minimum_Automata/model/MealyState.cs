@@ -6,7 +6,7 @@ namespace Related_and_Minimum_Automata.model
 	public class MealyState
 	{
 		public string Identifier { get; set; }
-		List<MealyTransition> Transitions;
+		public List<MealyTransition> Transitions { get; set; }
 
 		public MealyState(string identifier)
 		{
