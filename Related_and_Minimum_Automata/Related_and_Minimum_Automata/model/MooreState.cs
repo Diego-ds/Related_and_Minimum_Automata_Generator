@@ -21,12 +21,17 @@ namespace Related_and_Minimum_Automata.model
 			Transitions.Add(toAdd);
 		}
 
-		public void SearchState(string toSearch)
+		public MooreTransition SearchTransition(string toSearch)
         {
-            foreach ()
-            {
-
-            }
+			MooreTransition moore = null;
+			foreach (MooreTransition found in Transitions)
+			{
+				if (found.Objective.Identifier.Equals(toSearch))
+				{
+					moore = found;
+				}
+			}
+			return moore;	
         }
 
 		public List<MooreState> GetAllTransitions(List<MooreTransition> currentTransitions)

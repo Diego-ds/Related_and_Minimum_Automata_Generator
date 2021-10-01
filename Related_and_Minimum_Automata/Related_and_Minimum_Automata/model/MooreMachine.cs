@@ -22,26 +22,50 @@ namespace Related_and_Minimum_Automata.model
 		}
 
 		//Searches the connected states with DFS
-		public List<MooreState> GetConnectedStates()
+		private List<MooreState> ConnectedStates()
 		{
 			List<MooreState> connectedStates = new List<MooreState>();
 
 			if (Initial != null)
 			{
-				connectedStates = Initial.GetAllTransitions();
+				if (Initial.Transitions.Count() == 0)
+                {
+					connectedStates.Add(Initial);
+                }
+				else
+                {
+					connectedStates = GetConnectedStates(Initial, connectedStates);
+                }
 			}
 
 			return connectedStates;
 		}
 
-		public List<string> GetDisconnectedStates()
-		{
-
-		}
+		private List<MooreState> GetConnectedStates(MooreState current, List<MooreState> connStates)
+        {
+			connStates.Add(current);
+			Console.WriteLine("Estado Agregado: " + current.Identifier);
+			foreach(MooreTransition trans in current.Transitions)
+            {
+				if (!connStates.Contains(trans.Objective))
+                {
+					connStates = GetConnectedStates(trans.Objective, connStates);
+				}
+            }
+			return connStates;
+        }
 
 		public void RemoveDisconnectedStates()
 		{
+			List<MooreState> connStates = ConnectedStates();
 
+            foreach (MooreState state in States)
+            {
+				if (!connStates.Contains(state))
+                {
+					RemoveState(state.Identifier);
+				}
+            }
 		}
 
 		public bool RemoveState(string toRemove)

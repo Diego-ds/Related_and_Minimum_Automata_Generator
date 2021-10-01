@@ -49,7 +49,7 @@ namespace Related_and_Minimum_Automata.ui
 
         private void ReduceMachineButton_Click(object sender, EventArgs e)
         {
-
+            controller.RemoveDisconnectedStates();
         }
 
         private void BackButton_Click(object sender, EventArgs e)
