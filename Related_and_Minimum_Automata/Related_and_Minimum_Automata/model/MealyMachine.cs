@@ -39,8 +39,8 @@ namespace Related_and_Minimum_Automata.model
         {
 			connStates.Add(current);
 			Console.WriteLine("Founded state: "+current.Identifier);
-
-			foreach(MealyTransition t in current.Transitions)
+			Console.WriteLine("Transitions " + current.Transitions.Count);
+			foreach (MealyTransition t in current.Transitions)
             {
                 if (!connStates.Contains(t.Objective))
                 {
@@ -55,13 +55,7 @@ namespace Related_and_Minimum_Automata.model
         {
 			List<MealyState> connStates = ConnectedStates();
 
-			foreach(MealyState state in States)
-            {
-                if (!connStates.Contains(state))
-                {
-					States.Remove(state);
-                }
-            }
+			States = connStates;
         }
 
 		public void AddState(MealyState toAdd)
@@ -116,6 +110,7 @@ namespace Related_and_Minimum_Automata.model
 
 		public void LoadMachine(List<string[]> rows)
 		{
+			Console.WriteLine("Tamaño rows " + rows.Count);
 			LoadTransitions(rows);
 		}
 
@@ -123,7 +118,7 @@ namespace Related_and_Minimum_Automata.model
 		{
 			foreach (string[] row in rows)
 			{
-				for (int i = 1; i < row.Length - 2; i++)
+				for (int i = 1; i < row.Length; i++)
 				{
 					string[] objectiveAndOutput = row[i].Split(',');
 					AddTransition(row[0], objectiveAndOutput[0], Convert.ToString(i - 1), objectiveAndOutput[1]);

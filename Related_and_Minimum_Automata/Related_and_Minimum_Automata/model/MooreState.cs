@@ -33,14 +33,6 @@ namespace Related_and_Minimum_Automata.model
 			}
 			return moore;	
         }
-
-		public List<MooreState> GetAllTransitions(List<MooreTransition> currentTransitions)
-        {
-			if (Transitions != null)
-            {
-
-            }
-        }
 	}
 }
 
