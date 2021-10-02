@@ -122,7 +122,6 @@ namespace Related_and_Minimum_Automata.ui
                 for(int i = 0; i < row.Cells.Count; i++)
                 {
                     rowToAdd[i] = row.Cells[i].Value.ToString();
-                    Console.WriteLine("celda " + Convert.ToString(i) +" "+ row.Cells[i].Value.ToString());
                 }
                 rows.Add(rowToAdd);
             }

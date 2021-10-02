@@ -44,8 +44,7 @@ namespace Related_and_Minimum_Automata.model
 		private List<MooreState> GetConnectedStates(MooreState current, List<MooreState> connStates)
         {
 			connStates.Add(current);
-			Console.WriteLine("Estado Agregado: " + current.Identifier);
-			foreach(MooreTransition trans in current.Transitions)
+			foreach (MooreTransition trans in current.Transitions)
             {
 				if (!connStates.Contains(trans.Objective))
                 {
@@ -59,13 +58,7 @@ namespace Related_and_Minimum_Automata.model
 		{
 			List<MooreState> connStates = ConnectedStates();
 
-            foreach (MooreState state in States)
-            {
-				if (!connStates.Contains(state))
-                {
-					RemoveState(state.Identifier);
-				}
-            }
+			States = connStates;
 		}
 
 		public bool RemoveState(string toRemove)
@@ -99,7 +92,7 @@ namespace Related_and_Minimum_Automata.model
 		public bool AddTransition(string origin, string end, string input)
 		{
 			MooreState originState = SearchState(origin);
-			MooreState endState = SearchState(origin);
+			MooreState endState = SearchState(end);
 			if (originState != null && endState != null)
 			{
 				originState.AddTransition(new MooreTransition(endState, input));
@@ -147,9 +140,9 @@ namespace Related_and_Minimum_Automata.model
         {
 			foreach (string[] row in rows)
 			{
-				for (int i = 1; i < row.Length - 2; i++)
+				for (int i = 1; i < row.Length - 1; i++)
                 {
-					AddTransition(row[0], row[i], Convert.ToString(i - 1));
+					AddTransition(row[0], row[i], Convert.ToString(row.Length - 1));
 				}
 			}
 		}

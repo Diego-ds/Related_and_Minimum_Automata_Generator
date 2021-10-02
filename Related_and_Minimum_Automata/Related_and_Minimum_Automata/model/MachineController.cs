@@ -64,18 +64,10 @@ namespace Related_and_Minimum_Automata.model
             if (CurrentMachine.Equals("Mealy"))
             {
                 MealyMachine.RemoveDisconnectedStates();
-                foreach (MealyState state in MealyMachine.States)
-                {
-                    Console.WriteLine("Mealy: " + state.Identifier);
-                }
             }
-            if (CurrentMachine.Equals("Moore"))
+            else if (CurrentMachine.Equals("Moore"))
             {
                 MooreMachine.RemoveDisconnectedStates();
-                foreach (MooreState state in MooreMachine.States)
-                {
-                    Console.WriteLine("Moore: " + state.Identifier);
-                }
             }
 
             

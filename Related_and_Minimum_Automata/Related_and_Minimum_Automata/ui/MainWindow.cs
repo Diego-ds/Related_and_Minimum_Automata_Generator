@@ -50,7 +50,6 @@ namespace Related_and_Minimum_Automata.ui
         private void ReduceMachineButton_Click(object sender, EventArgs e)
         {
             controller.LoadMachine(machineTable1.GetRowsData());
-            Console.WriteLine(controller.CurrentMachine);
             controller.RemoveDisconnectedStates();
             //partition
             //load DataGridView
