@@ -8,7 +8,6 @@ namespace Related_and_Minimum_Automata.model
 		public string Output { get; set; }
 		public List<MooreTransition> Transitions { get; set; }
 
-		public List<int> Input;
 		public MooreState(string identifier, string output)
 		{
 			this.Identifier = identifier;
