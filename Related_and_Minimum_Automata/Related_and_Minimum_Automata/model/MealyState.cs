@@ -21,11 +21,11 @@ namespace Related_and_Minimum_Automata.model
 
 		public void RemoveTransition(string id)
         {
-			MealyTransition toRemove = searchTransition(id);
+			MealyTransition toRemove = SearchTransition(id);
 			Transitions.Remove(toRemove);
         }
 
-		public MealyTransition searchTransition(string identifier)
+		public MealyTransition SearchTransition(string identifier)
         {
 			MealyTransition mealy = null;
 			foreach(MealyTransition found in Transitions)

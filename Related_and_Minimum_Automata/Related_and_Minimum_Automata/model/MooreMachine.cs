@@ -61,16 +61,64 @@ namespace Related_and_Minimum_Automata.model
 			States = connStates;
 		}
 
-		public void PartitionateMachine()
+		public DataTable ReduceMachine()
         {
-			//List <MooreState> newPartition = Metodo de Diego 
-			List <MooreState> prevPartition = new List<MooreState>();
+			List<List<MooreState>> minimumPartition = PartitionateMachine();
+			List<MooreState> minimumMachine = CreateMinimumEquivalent(minimumPartition);
+		}
+
+		public List<MooreState> CreateMinimumEquivalent(List<List<MooreState>> minimumPartition)
+        {
+			List<MooreState> newStates = new List<MooreState>();
+			for (int i = 0; i < minimumPartition.Count; i++)
+            {
+				newStates.Add(new MooreState("q" + Convert.ToString(i),minimumPartition[i][0].Output));
+			}
+
+			foreach (string input in Inputs)
+			{
+				for (int i = 0; i < newStates.Count; i++)
+				{
+					MooreState objectiveState = FindNewTransition(input, i, newStates, minimumPartition);
+					newStates[i].AddTransition(new MooreTransition(objectiveState, input));
+                }
+			}
+
+			return newStates;
+		}
+
+		public MooreState FindNewTransition(string input, int index, List<MooreState> newStates, List<List<MooreState>> minimumPartition)
+        {
+			List<MooreTransition> transitions = minimumPartition[index][0].Transitions;
+		
+            foreach (MooreTransition transition in transitions)
+            {
+				if (transition.Input.Equals(input))
+                {
+					for (int i = 0; i < minimumPartition.Count; i++)
+                    {
+						if (minimumPartition[i].Contains(transition.Objective))
+                        {
+							return newStates[i];
+                        }
+                    }
+                }
+            }
+			return null;
+        }
+
+		public List<List<MooreState>> PartitionateMachine()
+        {
+			List<List<MooreState>> newPartition = FirstPartition();
+			List<List<MooreState>> prevPartition = new List<List<MooreState>>();
 
 			while (!PartitionsEquals(newPartition, prevPartition))
             {
 				prevPartition = newPartition;
 				newPartition = NextPartition(prevPartition);
             }
+
+			return newPartition;
 		}
 
 		/*
@@ -99,12 +147,16 @@ namespace Related_and_Minimum_Automata.model
 					if (!TransitionFunctionEquals(block[0], block[i],prevPartition))
 					{
 						differentStates.Add(block[i]);
+						block.Remove(block[i]);
 					}
 				}
-
 				newBlocks.Add(differentStates);
-				foreach
 			}
+            foreach (List<MooreState> newBlock in newBlocks)
+            {
+				prevPartition.Add(newBlock);
+            }
+			return prevPartition;
 		}
 
 		public bool TransitionFunctionEquals(MooreState q1, MooreState q2, List<List<MooreState>> partition)
@@ -263,7 +315,7 @@ namespace Related_and_Minimum_Automata.model
 				}
 			}
 		}
-		private List<List<MooreState>> firstPartition()
+		private List<List<MooreState>> FirstPartition()
 		{
 			Dictionary<string, List<MooreState>> dictionary = new Dictionary<string, List<MooreState>>();
 			List<List<MooreState>> partition = new List<List<MooreState>>();

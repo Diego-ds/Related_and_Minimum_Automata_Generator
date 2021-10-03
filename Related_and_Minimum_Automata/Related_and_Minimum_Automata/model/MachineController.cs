@@ -69,8 +69,18 @@ namespace Related_and_Minimum_Automata.model
             {
                 MooreMachine.RemoveDisconnectedStates();
             }
+        }
 
-            
+        public void MinimumEquivalentMachine()
+        {
+            if (CurrentMachine.Equals("Mealy"))
+            {
+                DataTable minimumMachine = MealyMachine.ReduceMachine();
+            }
+            else if (CurrentMachine.Equals("Moore"))
+            {
+                DataTable minimumMachine = MooreMachine.ReduceMachine();
+            }
         }
     }
 }
