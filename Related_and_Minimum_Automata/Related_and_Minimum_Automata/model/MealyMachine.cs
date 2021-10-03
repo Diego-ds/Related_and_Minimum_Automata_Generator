@@ -8,7 +8,13 @@ using System.Threading.Tasks;
 
 namespace Related_and_Minimum_Automata.model
 {
-    class MealyMachine
+	///<summary>
+	///Mealy machine class
+	///</summary>
+	///<remarks>
+	///Manage the data of the mealy machine
+	///</remarks>
+	class MealyMachine
     {
 		public List<MealyState> States { get; set; }
 		public List<string> Inputs { get; set; }
@@ -23,6 +29,12 @@ namespace Related_and_Minimum_Automata.model
 			Initial = null;
 		}
 
+		///<summary>
+		///Get the all the reachable states of the machine
+		///</summary>
+		///<return>
+		///A list with all the reachable states of the machine
+		///</return>
 		private List<MealyState> ConnectedStates()
         {
 			List<MealyState> connStates = new List<MealyState>();
@@ -37,6 +49,18 @@ namespace Related_and_Minimum_Automata.model
 
         }
 
+		///<summary>
+		///Get the all the reachable states of the machine by a determined state
+		///</summary>
+		///<return>
+		///A list with the reachable states by a determined state
+		///</return>
+		///<param name="current">
+		///Current state of the machine
+		///</param>
+		///<param name="connStates">
+		///List of the previous reached states
+		///</param>
 		private List<MealyState> GetConnectedStates(MealyState current, List<MealyState> connStates)
         {
 			connStates.Add(current);
@@ -51,6 +75,9 @@ namespace Related_and_Minimum_Automata.model
 			return connStates;
         }
 
+		///<summary>
+		///Remove the unreachable states from the machine
+		///</summary>
 		public void RemoveDisconnectedStates()
         {
 			List<MealyState> connStates = ConnectedStates();
@@ -58,6 +85,12 @@ namespace Related_and_Minimum_Automata.model
 			States = connStates;
         }
 
+		///<summary>
+		///Get the minimun equivalent of the machine
+		///</summary>
+		///<return>
+		///A table with the minimum equivalent of the machine
+		///</return>
 		public DataTable ReduceMachine()
 		{
 			List<List<MealyState>> minimumPartition = PartitionateMachine();
@@ -95,9 +128,17 @@ namespace Related_and_Minimum_Automata.model
 			
 		}
 
+		///<summary>
+		///Create a minimum equivalent machine
+		///</summary>
+		///<return>
+		///List with the states of the minimum equivalent machine
+		///</return>
+		///<param name="minimumPartition">
+		///Partition of the machine
+		///</param>
 		public List<MealyState> CreateMinimumEquivalent(List<List<MealyState>> minimumPartition)
 		{
-
 			string finalpart = "";
             foreach (List<MealyState> s in minimumPartition )
             {
@@ -107,7 +148,6 @@ namespace Related_and_Minimum_Automata.model
                 }
 				finalpart += "\n";
             }
-			Console.WriteLine("Particion final: " + finalpart);
 			List<MealyState> newStates = new List<MealyState>();
 			for (int i = 0; i < minimumPartition.Count; i++)
 			{
@@ -119,13 +159,30 @@ namespace Related_and_Minimum_Automata.model
 				for (int i = 0; i < newStates.Count; i++)
 				{
 					Tuple<MealyState,string> os = FindNewTransition(input, i, newStates, minimumPartition);
-					Console.WriteLine("State: " + newStates[i].Identifier + " Input: " + input + " Objective: " + os.Item1.Identifier + " Output: " + os.Item2);
 					newStates[i].AddTransition(new MealyTransition(os.Item1, input, os.Item2));
 				}
 			}
 			return newStates;
 		}
 
+		///<summary>
+		///Find the objective state and output of a block of the partition to create a transition on the renamed states
+		///</summary>
+		///<return>
+		///Tuple with the objective state and output of a transition
+		///</return>
+		///<param name="input">
+		///Current input to look for
+		///</param>
+		///<param name="index">
+		///Index of the block in the partition
+		///</param>
+		///<param name="newStates">
+		///States of the minimum equivalent machine
+		///</param>
+		///<param name="minimumPartition">
+		///Partition of the machine
+		///</param>
 		public Tuple<MealyState,string> FindNewTransition(string input, int index, List<MealyState> newStates, List<List<MealyState>> minimumPartition)
 		{
 			List<MealyTransition> transitions = minimumPartition[index][0].Transitions;
@@ -146,19 +203,15 @@ namespace Related_and_Minimum_Automata.model
 			return null;
 		}
 
+		///<summary>
+		///Get the final partition of the machine
+		///</summary>
+		///<return>
+		///Matrix with the final partition of the machine
+		///</return>
 		public List<List<MealyState>> PartitionateMachine()
 		{
 			List<List<MealyState>> newPartition = FirstPartition();
-			string partitions = "";
-            /*foreach (List<MealyState> p in newPartition)
-            {
-				foreach(MealyState s in p)
-                {
-					partitions += s.Identifier + " ";
-                }
-				partitions += "\n";
-            }
-			Console.WriteLine(partitions);*/
 			List<List<MealyState>> prevPartition = new List<List<MealyState>>();
 
 			while (!PartitionsEquals(newPartition, prevPartition))
@@ -169,62 +222,82 @@ namespace Related_and_Minimum_Automata.model
 			return newPartition;
 		}
 
-		/*
- * ALGORTIMO DE PARTICION:
- * 1. Comparamos el primer estado de cada bloque con los otros estados de ese bloque
- *	1.1 Si se cumple f(q,s) y f(q',s), no hacer nada
- *	1.2 Si no se cumple, agregar el estado con que se esta comparando a un nuevo bloque D
- * 2. Comparamos con el primer estado de la lista D el resto de estados
- *	2.1 Si se cumple f(q,s) y f(q',s), no hacer nada
- *	2.2 Si no se cumple, agregar el estado con que se esta comparando a un nuevo bloque D'
- * 3. Si no resultan mas bloques D, agregar los bloques D a la particion y remover
- * los estados que pertenecen a los bloques D del bloque anterior
- * 4. Repetir hasta que se recorran todos los bloques de la particion
- * 5. Retornar la particion con los bloques D agregados
- */
+		///<summary>
+		///Get the next partition of a given partition
+		///</summary>
+		///<return>
+		///Partition of the machine
+		///</return>
+		///<param name="prevPartition">
+		///The previous partition to partitionate
+		///</param>
 		public List<List<MealyState>> NextPartition(List<List<MealyState>> prevPartition)
 		{
-			List<List<MealyState>> newBlocks = new List<List<MealyState>>();
-			int indexPartition = 0;
-			string p = "";
-			foreach (List<MealyState> block in prevPartition)
-			{
-				List<MealyState> differentStates = new List<MealyState>();
 
-				for (int i = 1; i < block.Count; i++)
+			List<Tuple<int, List<MealyState>>> newBlocks = new List<Tuple<int, List<MealyState>>>();
+
+			for (int i = 0; i < prevPartition.Count; i++)
+			{
+				Tuple<int, List<MealyState>> differentStates;
+
+				if (i != prevPartition.Count - 1)
 				{
-					if (!TransitionFunctionEquals(block[0], block[i], prevPartition))
-					{
-						differentStates.Add(block[i]);						
-					}
-				}				
-				foreach(MealyState s in differentStates)
-                {
-					p += s.Identifier + " ";
-                }
-				p += "\n";
-				if (differentStates.Count >= 1)
-				{
-					foreach(MealyState s in differentStates)
-                    {
-						block.Remove(s);
-                    }
-					newBlocks.Add(differentStates);
-					indexPartition++;
+					differentStates = new Tuple<int, List<MealyState>>(i + 1, new List<MealyState>());
 				}
-				
+				else
+				{
+					differentStates = new Tuple<int, List<MealyState>>(-1, new List<MealyState>());
+				}
+
+				for (int j = 1; j < prevPartition[i].Count; j++)
+				{
+					if (!TransitionFunctionEquals(prevPartition[i][0], prevPartition[i][j], prevPartition))
+					{
+						differentStates.Item2.Add(prevPartition[i][j]);
+					}
+				}
+				if (differentStates.Item2.Count >= 1)
+				{
+					foreach (MealyState dState in differentStates.Item2)
+					{
+						prevPartition[i].Remove(dState);
+					}
+					newBlocks.Add(differentStates);
+				}
 			}
-			Console.WriteLine(p);
-					
-			prevPartition.InsertRange(indexPartition,newBlocks);
-			
+			foreach (Tuple<int, List<MealyState>> newBlock in newBlocks)
+			{
+				if (newBlock.Item1 == -1)
+				{
+					prevPartition.Add(newBlock.Item2);
+				}
+				else
+				{
+					prevPartition.Insert(newBlock.Item1, newBlock.Item2);
+				}
+			}
+
 			return prevPartition;
 		}
 
+		///<summary>
+		///Check if the transitions of two given states are in the block of the partition
+		///</summary>
+		///<return>
+		///Boolean value
+		///</return>
+		///<param name="q1">
+		///Given state
+		///</param>
+		///<param name="q2">
+		///Given state
+		///</param>
+		///<param name="partition">
+		///Partition of the machine
+		///</param>
 		public bool TransitionFunctionEquals(MealyState q1, MealyState q2, List<List<MealyState>> partition)
 		{
-			Console.WriteLine("Q1: " + q1.Identifier);
-			Console.WriteLine("Q2: " + q2.Identifier);
+			
 			bool equal = true;
 			List<MealyState> ts1 = new List<MealyState>();
 			List<MealyState> ts2 = new List<MealyState>();
@@ -233,8 +306,6 @@ namespace Related_and_Minimum_Automata.model
 			{
 				ts1.Add(q1.Transitions[i].Objective);
 				ts2.Add(q2.Transitions[i].Objective);
-				Console.WriteLine("TS1 EN INPUT " + i + ": " + q1.Transitions[i].Objective.Identifier);
-				Console.WriteLine("TS2 EN INPUT " + i + ": " + q2.Transitions[i].Objective.Identifier);
 			}
 			foreach (List<MealyState> block in partition)
 			{
@@ -243,16 +314,26 @@ namespace Related_and_Minimum_Automata.model
 					if (block.Contains(ts1[i]) && !block.Contains(ts2[i]) ||
 							(!block.Contains(ts1[i]) && block.Contains(ts2[i])))
 					{
-						Console.WriteLine("FALSO EN ts1: " + ts1[i].Identifier);
-						Console.WriteLine("FALSO EN ts2: " + ts2[i].Identifier);
+
 						equal = false;
 					}
 				}
 			}
-			Console.WriteLine("------------------------------");
 			return equal;
 		}
 
+		///<summary>
+		///Check if two partitions are equal
+		///</summary>
+		///<return>
+		///Boolean value
+		///</return>
+		///<param name="p1">
+		///Given partition
+		///</param>
+		///<param name="p2">
+		///Given partition
+		///</param>
 		public bool PartitionsEquals(List<List<MealyState>> p1, List<List<MealyState>> p2)
 		{
 			bool equal = true;
@@ -275,6 +356,18 @@ namespace Related_and_Minimum_Automata.model
 			return equal;
 		}
 
+		///<summary>
+		///Check if two blocks of a partition are equal
+		///</summary>
+		///<return>
+		///Boolean value
+		///</return>
+		///<param name="b1">
+		///Given block
+		///</param>
+		///<param name="b2">
+		///Given block
+		///</param>
 		public bool BlockEquals(List<MealyState> b1, List<MealyState> b2)
 		{
 			bool equal = true;
@@ -297,6 +390,12 @@ namespace Related_and_Minimum_Automata.model
 			return equal;
 		}
 
+		///<summary>
+		///Add a new state
+		///</summary>
+		///<param name="toAdd">
+		///New state to add
+		///</param>
 		public void AddState(MealyState toAdd)
         {
             if (Initial==null)
@@ -310,6 +409,24 @@ namespace Related_and_Minimum_Automata.model
             }
         }
 
+		///<summary>
+		///Add a new transition to the machine
+		///</summary>
+		///<return>
+		///Boolean value indicating if the transition was added
+		///</return>
+		///<param name="initial">
+		///Identifier of the initial state of the transition
+		///</param>
+		///<param name="final">
+		///Identifier of the final state of the transition
+		///</param>
+		///<param name="input">
+		///Input of the transition
+		///</param>
+		///<param name="output">
+		///Output of the transition
+		///</param>
 		public bool AddTransition(string initial,string final,string input,string output)
         {
 			MealyState state = SearchState(initial);
@@ -333,6 +450,15 @@ namespace Related_and_Minimum_Automata.model
             }
         }
 
+		///<summary>
+		///Search a state of the machine
+		///</summary>
+		///<return>
+		///Found state
+		///</return>
+		///<param name="id">
+		///Identifier of the state to look for
+		///</param>
 		public MealyState SearchState(string id)
         {
 			MealyState m = null;
@@ -347,6 +473,12 @@ namespace Related_and_Minimum_Automata.model
 			return m;
         }
 
+		///<summary>
+		///Load a new machine
+		///</summary>
+		///<param name="rows">
+		///Rows of the table of the new machine
+		///</param>
 		public void LoadMachine(List<string[]> rows)
 		{
 			foreach (string[] row in rows)
@@ -381,6 +513,12 @@ namespace Related_and_Minimum_Automata.model
 			}
 		}
 
+		///<summary>
+		///Get the first partition of the machine
+		///</summary>
+		///<return>
+		///First partition of the machine
+		///</return>
 		private List<List<MealyState>> FirstPartition()
 		{ 
 			Dictionary<string,List<MealyState>> dictionary = new Dictionary<string,List <MealyState>>();
@@ -418,6 +556,9 @@ namespace Related_and_Minimum_Automata.model
 
 		}
 
+		///<summary>
+		///Clear all the data of the machine
+		///</summary>
 		public void CleanMachine()
 		{
 			Inputs.Clear();
