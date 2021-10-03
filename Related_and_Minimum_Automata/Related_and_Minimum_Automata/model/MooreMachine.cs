@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Related_and_Minimum_Automata.model
 {
@@ -128,18 +129,13 @@ namespace Related_and_Minimum_Automata.model
 		
             foreach (MooreTransition transition in transitions)
             {
-				Console.WriteLine("INPUT: " + transition.Input);
 
-				Console.WriteLine("Entre 1");
 				if (transition.Input.Equals(input))
                 {
-					Console.WriteLine("Entre 2");
 					for (int i = 0; i < minimumPartition.Count; i++)
                     {
-						Console.WriteLine("Entre 3");
 						if (minimumPartition[i].Contains(transition.Objective))
                         {
-							Console.WriteLine("Entre 4");
 							return newStates[i];
                         }
                     }
@@ -155,45 +151,13 @@ namespace Related_and_Minimum_Automata.model
 
 			while (!PartitionsEquals(newPartition, prevPartition))
             {
-
 				prevPartition = new List<List<MooreState>>(newPartition);
 				newPartition = NextPartition(new List<List<MooreState>>(prevPartition));
-
-				for (int i = 0; i < newPartition.Count; i++)
-				{
-					for (int j = 0; j < newPartition[i].Count; j++)
-					{
-						Console.WriteLine("NEW: B" + i + ", E" + j + ": " + newPartition[i][j].Identifier);
-					}
-				}
-				Console.WriteLine("---------------------------");
-				for (int i = 0; i < prevPartition.Count; i++)
-				{
-					for (int j = 0; j < prevPartition[i].Count; j++)
-					{
-						Console.WriteLine("PREV: B" + i + ", E" + j + ": " + prevPartition[i][j].Identifier);
-					}
-				}
-				Console.WriteLine("---------------------------");
-
 			}
 
 			return newPartition;
 		}
 
-		/*
- * ALGORTIMO DE PARTICION:
- * 1. Comparamos el primer estado de cada bloque con los otros estados de ese bloque
- *	1.1 Si se cumple f(q,s) y f(q',s), no hacer nada
- *	1.2 Si no se cumple, agregar el estado con que se esta comparando a un nuevo bloque D
- * 2. Comparamos con el primer estado de la lista D el resto de estados
- *	2.1 Si se cumple f(q,s) y f(q',s), no hacer nada
- *	2.2 Si no se cumple, agregar el estado con que se esta comparando a un nuevo bloque D'
- * 3. Si no resultan mas bloques D, agregar los bloques D a la particion y remover
- * los estados que pertenecen a los bloques D del bloque anterior
- * 4. Repetir hasta que se recorran todos los bloques de la particion
- * 5. Retornar la particion con los bloques D agregados
- */
 		public List<List<MooreState>> NextPartition(List<List<MooreState>> prevPartition)
 		{
 			List<Tuple<int, List<MooreState>>> newBlocks = new List<Tuple<int, List<MooreState>>>();
@@ -374,7 +338,6 @@ namespace Related_and_Minimum_Automata.model
 		public void LoadMachine(List<string[]> rows)
         {
 			LoadStates(rows);
-
 			LoadTransitions(rows);
 		}
 
@@ -382,14 +345,20 @@ namespace Related_and_Minimum_Automata.model
         {
 			foreach (string[] row in rows)
 			{
-				MooreState newState = new MooreState(row[0], row[row.Length - 1]);
-				if (!Outputs.Contains(row[row.Length - 1])) 
-				{ 
-					Outputs.Add(row[row.Length - 1]);
+                if (row[row.Length - 1].Equals(""))
+                {
+					throw new ArgumentException("Please input a valid output.");
+                }
+                else 
+				{
+					MooreState newState = new MooreState(row[0], row[row.Length - 1]);
+					if (!Outputs.Contains(row[row.Length - 1]))
+					{
+						Outputs.Add(row[row.Length - 1]);
+					}
+
+					AddState(newState);
 				}
-				
-				
-				AddState(newState);
 			}
 		}
 
@@ -397,12 +366,29 @@ namespace Related_and_Minimum_Automata.model
         {
 			foreach (string[] row in rows)
 			{
+				
 				for (int i = 1; i < row.Length - 1; i++)
                 {
-					AddTransition(row[0], row[i], Convert.ToString(i - 1));
-				}
+					if (row[i].Equals("") || row[i].Length < 2)
+					{
+						throw new ArgumentException("Please begin the state with a 'q' and follow it with integers.");
+					}
+					else if (!row[i][0].Equals('q') || Regex.IsMatch(row[i].Substring(1, row[i].Length - 1), @"[^A-Za-z0-9]"))
+					{
+						throw new ArgumentException("Please begin the state with a 'q' and follow it with integers.");
+					}
+					else if (Convert.ToInt32(row[i].Substring(1, row[i].Length - 1)) > rows.Count - 1)
+                    {
+						throw new ArgumentException("Please do not exceed the number of the last state");
+					}
+                    else
+                    {
+						AddTransition(row[0], row[i], Convert.ToString(i - 1));
+					}
+				}		
 			}
 		}
+		
 		private List<List<MooreState>> FirstPartition()
 		{
 			Dictionary<string, List<MooreState>> dictionary = new Dictionary<string, List<MooreState>>();

@@ -49,13 +49,25 @@ namespace Related_and_Minimum_Automata.ui
 
         private void ReduceMachineButton_Click(object sender, EventArgs e)
         {
-            controller.LoadMachine(machineTable1.GetRowsData());
-            controller.RemoveDisconnectedStates();
-            machineTable1.SetNewTable(controller.MinimumEquivalentMachine());
-            ReduceMachineButton.Visible = false;
+            try
+            {
+                controller.LoadMachine(machineTable1.GetRowsData());
+                controller.RemoveDisconnectedStates();
+                machineTable1.SetNewTable(controller.MinimumEquivalentMachine());
+                ReduceMachineButton.Visible = false;
+            } catch (ArgumentException ae)
+            {
+                MessageBox.Show(ae.Message, "Error: Wrong input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                GoBack();
+            }       
         }
 
         private void BackButton_Click(object sender, EventArgs e)
+        {
+            GoBack();
+        }
+
+        private void GoBack()
         {
             OpenTableButton.Visible = true;
             enterAutomata1.Visible = true;

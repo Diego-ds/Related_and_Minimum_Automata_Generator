@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Related_and_Minimum_Automata.model
@@ -348,21 +349,34 @@ namespace Related_and_Minimum_Automata.model
 
 		public void LoadMachine(List<string[]> rows)
 		{
-			LoadTransitions(rows);
-		}
-
-		public void LoadTransitions(List<string[]> rows)
-		{
 			foreach (string[] row in rows)
 			{
 				for (int i = 1; i < row.Length; i++)
 				{
-					string[] objectiveAndOutput = row[i].Split(',');
-                    if (!Outputs.Contains(objectiveAndOutput[1]))
+					if (row[i].Equals("") || row[i].Length < 4)
+					{
+						throw new ArgumentException("Please begin the state with a 'q', follow it " +
+							"with integers and separate the output from the state with a comma.");
+					}
+					else if (!row[i].Contains(',') || row[i][row[i].Length - 1].Equals(','))
                     {
-						Outputs.Add(objectiveAndOutput[1]);
-					}										
-					AddTransition(row[0], objectiveAndOutput[0], Convert.ToString(i - 1), objectiveAndOutput[1]);
+						throw new ArgumentException("Please separate the state and output with a comma.");
+					}
+	
+					string[] checker = row[i].Split(',');
+					if (checker.Length != 2)
+                    {
+						throw new ArgumentException("Please don't input more than 1 comma.");
+					}
+					else 
+					{
+						string[] objectiveAndOutput = row[i].Split(',');
+						if (!Outputs.Contains(objectiveAndOutput[1]))
+						{
+							Outputs.Add(objectiveAndOutput[1]);
+						}
+						AddTransition(row[0], objectiveAndOutput[0], Convert.ToString(i - 1), objectiveAndOutput[1]);
+					}
 				}
 			}
 		}
