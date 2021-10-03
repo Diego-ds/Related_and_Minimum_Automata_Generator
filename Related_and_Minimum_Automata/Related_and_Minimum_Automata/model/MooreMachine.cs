@@ -73,6 +73,7 @@ namespace Related_and_Minimum_Automata.model
 				table.Columns.Add(Convert.ToString(i));
 			}
 			table.Columns.Add("Outputs");
+			
 			for (int j = 0; j < minimumMachine.Count; j++)
 			{
 				table.Rows.Add();
@@ -94,8 +95,7 @@ namespace Related_and_Minimum_Automata.model
 					else
 					{
 						row[i] = minimumMachine[rowNum].Transitions[i-1].Objective.Identifier;
-					}
-
+					}	
 				}
 				rowNum++;
 			}
@@ -149,9 +149,28 @@ namespace Related_and_Minimum_Automata.model
 
 			while (!PartitionsEquals(newPartition, prevPartition))
             {
-				prevPartition = newPartition;
-				newPartition = NextPartition(prevPartition);
-            }
+
+				prevPartition = new List<List<MooreState>>(newPartition);
+				newPartition = NextPartition(new List<List<MooreState>>(prevPartition));
+
+				for (int i = 0; i < newPartition.Count; i++)
+				{
+					for (int j = 0; j < newPartition[i].Count; j++)
+					{
+						Console.WriteLine("NEW: B" + i + ", E" + j + ": " + newPartition[i][j].Identifier);
+					}
+				}
+				Console.WriteLine("---------------------------");
+				for (int i = 0; i < prevPartition.Count; i++)
+				{
+					for (int j = 0; j < prevPartition[i].Count; j++)
+					{
+						Console.WriteLine("PREV: B" + i + ", E" + j + ": " + prevPartition[i][j].Identifier);
+					}
+				}
+				Console.WriteLine("---------------------------");
+
+			}
 
 			return newPartition;
 		}
@@ -178,14 +197,21 @@ namespace Related_and_Minimum_Automata.model
 				List<MooreState> differentStates = new List<MooreState>();
 
 				for (int i = 1; i < block.Count; i++)
-				{	
+				{
+					Console.WriteLine("ELEMENTOS EN EL BLOQUE: " + block.Count);
 					if (!TransitionFunctionEquals(block[0], block[i],prevPartition))
 					{
 						differentStates.Add(block[i]);
-						block.Remove(block[i]);
 					}
 				}
-				newBlocks.Add(differentStates);
+				if (differentStates.Count >= 1)
+                {
+					newBlocks.Add(differentStates);
+					foreach (MooreState dState in differentStates)
+                    {
+						block.Remove(dState);
+                    }
+				}
 			}
             foreach (List<MooreState> newBlock in newBlocks)
             {
@@ -196,6 +222,8 @@ namespace Related_and_Minimum_Automata.model
 
 		public bool TransitionFunctionEquals(MooreState q1, MooreState q2, List<List<MooreState>> partition)
         {
+			Console.WriteLine("Q1: " + q1.Identifier);
+			Console.WriteLine("Q2: " + q2.Identifier);
 			bool equal = true;
 			List<MooreState> ts1 = new List<MooreState>();
 			List<MooreState> ts2 = new List<MooreState>();
@@ -203,7 +231,9 @@ namespace Related_and_Minimum_Automata.model
 			for (int i = 0; i < q1.Transitions.Count; i++)
             {
 				ts1.Add(q1.Transitions[i].Objective);
+				Console.WriteLine("TS1 EN INPUT " + i +": " + q1.Transitions[i].Objective.Identifier); 
 				ts2.Add(q2.Transitions[i].Objective);
+				Console.WriteLine("TS2 EN INPUT " + i +": " + q2.Transitions[i].Objective.Identifier);
 			}
 			foreach(List<MooreState> block in partition)
             {
@@ -212,10 +242,13 @@ namespace Related_and_Minimum_Automata.model
 					if (block.Contains(ts1[i]) && !block.Contains(ts2[i]) ||
 							(!block.Contains(ts1[i]) && block.Contains(ts2[i])))
                     {
+						Console.WriteLine("FALSO EN ts1: " + ts1[i].Identifier);
+						Console.WriteLine("FALSO EN ts2: " + ts2[i].Identifier);
 						equal = false;
                     }
 				}
 			}
+			Console.WriteLine("--------------------");
 			return equal;
 		}
 
@@ -334,8 +367,12 @@ namespace Related_and_Minimum_Automata.model
 			foreach (string[] row in rows)
 			{
 				MooreState newState = new MooreState(row[0], row[row.Length - 1]);
-				Outputs.Add(row[row.Length - 1]);
-				Console.WriteLine(row[row.Length - 1]);
+				if (!Outputs.Contains(row[row.Length - 1])) 
+				{ 
+					Outputs.Add(row[row.Length - 1]);
+				}
+				
+				
 				AddState(newState);
 			}
 		}
