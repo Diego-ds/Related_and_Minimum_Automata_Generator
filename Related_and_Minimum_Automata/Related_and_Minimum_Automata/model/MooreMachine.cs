@@ -247,6 +247,8 @@ namespace Related_and_Minimum_Automata.model
 			foreach (string[] row in rows)
 			{
 				MooreState newState = new MooreState(row[0], row[row.Length - 1]);
+				Outputs.Add(row[row.Length - 1]);
+				Console.WriteLine(row[row.Length - 1]);
 				AddState(newState);
 			}
 		}
@@ -260,6 +262,38 @@ namespace Related_and_Minimum_Automata.model
 					AddTransition(row[0], row[i], Convert.ToString(row.Length - 1));
 				}
 			}
+		}
+		private List<List<MooreState>> firstPartition()
+		{
+			Dictionary<string, List<MooreState>> dictionary = new Dictionary<string, List<MooreState>>();
+			List<List<MooreState>> partition = new List<List<MooreState>>();
+
+			foreach (MooreState state in States)
+			{
+				string output = state.Output;
+
+				if (dictionary.ContainsKey(output))
+				{
+					dictionary[output].Add(state);
+				}
+				else
+				{
+					List<MooreState> newList = new List<MooreState>
+					{
+						state
+					};
+					dictionary.Add(output, newList);
+				}
+
+			}
+
+			foreach (List<MooreState> partitions in dictionary.Values)
+			{
+				partition.Add(partitions);
+			}
+
+			return partition;
+
 		}
 
 		public void CleanMachine()
