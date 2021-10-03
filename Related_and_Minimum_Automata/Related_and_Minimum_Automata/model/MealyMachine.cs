@@ -30,7 +30,7 @@ namespace Related_and_Minimum_Automata.model
 		}
 
 		///<summary>
-		///Get the all the reachable states of the machine
+		///Get all the reachable states of the machine
 		///</summary>
 		///<return>
 		///A list with all the reachable states of the machine
@@ -50,10 +50,10 @@ namespace Related_and_Minimum_Automata.model
         }
 
 		///<summary>
-		///Get the all the reachable states of the machine by a determined state
+		///Get all the reachable states of the machine by a determined state
 		///</summary>
 		///<return>
-		///A list with the reachable states by a determined state
+		///A list with the reachable states from a determined state
 		///</return>
 		///<param name="current">
 		///Current state of the machine
@@ -86,10 +86,10 @@ namespace Related_and_Minimum_Automata.model
         }
 
 		///<summary>
-		///Get the minimun equivalent of the machine
+		///Get the minimum equivalent machine from the machine
 		///</summary>
 		///<return>
-		///A table with the minimum equivalent of the machine
+		///A table with the minimum equivalent machine from the machine
 		///</return>
 		public DataTable ReduceMachine()
 		{
@@ -281,7 +281,7 @@ namespace Related_and_Minimum_Automata.model
 		}
 
 		///<summary>
-		///Check if the transitions of two given states are in the block of the partition
+		///Checks if the transitions of two given states are in the block of the partition
 		///</summary>
 		///<return>
 		///Boolean value

@@ -8,6 +8,12 @@ using System.Text.RegularExpressions;
 
 namespace Related_and_Minimum_Automata.model
 {
+	///<summary>
+	///Moore machine class
+	///</summary>
+	///<remarks>
+	///Manage the data of the moore machine
+	///</remarks>
 	class MooreMachine
 	{
 		public List<MooreState> States { get; set; }
@@ -23,7 +29,12 @@ namespace Related_and_Minimum_Automata.model
 			this.Initial = null;
 		}
 
-		//Searches the connected states with DFS
+		///<summary>
+		///Get all the reachable states of the machine
+		///</summary>
+		///<return>
+		///A list with all the reachable states of the machine
+		///</return>
 		private List<MooreState> ConnectedStates()
 		{
 			List<MooreState> connectedStates = new List<MooreState>();
@@ -43,6 +54,18 @@ namespace Related_and_Minimum_Automata.model
 			return connectedStates;
 		}
 
+		///<summary>
+		///Get all the reachable states of the machine by a determined state
+		///</summary>
+		///<return>
+		///A list with the reachable states from a determined state
+		///</return>
+		///<param name="current">
+		///Current state of the machine
+		///</param>
+		///<param name="connStates">
+		///List of the previous reached states
+		///</param>
 		private List<MooreState> GetConnectedStates(MooreState current, List<MooreState> connStates)
         {
 			connStates.Add(current);
@@ -56,6 +79,9 @@ namespace Related_and_Minimum_Automata.model
 			return connStates;
         }
 
+		///<summary>
+		///Remove the unreachable states from the machine
+		///</summary>
 		public void RemoveDisconnectedStates()
 		{
 			List<MooreState> connStates = ConnectedStates();
@@ -63,6 +89,12 @@ namespace Related_and_Minimum_Automata.model
 			States = connStates;
 		}
 
+		///<summary>
+		///Get the minimum equivalent machine from the machine
+		///</summary>
+		///<return>
+		///A table with the minimum equivalent machine from the machine
+		///</return>
 		public DataTable ReduceMachine()
         {
 			List<List<MooreState>> minimumPartition = PartitionateMachine();
@@ -103,6 +135,15 @@ namespace Related_and_Minimum_Automata.model
 			return table;
 		}
 
+		///<summary>
+		///Create a minimum equivalent machine
+		///</summary>
+		///<return>
+		///List with the states of the minimum equivalent machine
+		///</return>
+		///<param name="minimumPartition">
+		///Partition of the machine
+		///</param>
 		public List<MooreState> CreateMinimumEquivalent(List<List<MooreState>> minimumPartition)
         {
 			List<MooreState> newStates = new List<MooreState>();
@@ -123,6 +164,24 @@ namespace Related_and_Minimum_Automata.model
 			return newStates;
 		}
 
+		///<summary>
+		///Find the objective state and output of a block of the partition to create a transition on the renamed states
+		///</summary>
+		///<return>
+		///Tuple with the objective state and output of a transition
+		///</return>
+		///<param name="input">
+		///Current input to look for
+		///</param>
+		///<param name="index">
+		///Index of the block in the partition
+		///</param>
+		///<param name="newStates">
+		///States of the minimum equivalent machine
+		///</param>
+		///<param name="minimumPartition">
+		///Partition of the machine
+		///</param>
 		public MooreState FindNewTransition(string input, int index, List<MooreState> newStates, List<List<MooreState>> minimumPartition)
         {
 			List<MooreTransition> transitions = minimumPartition[index][0].Transitions;
@@ -144,6 +203,12 @@ namespace Related_and_Minimum_Automata.model
 			return null;
         }
 
+		///<summary>
+		///Get the final partition of the machine
+		///</summary>
+		///<return>
+		///Matrix with the final partition of the machine
+		///</return>
 		public List<List<MooreState>> PartitionateMachine()
         {
 			List<List<MooreState>> newPartition = FirstPartition();
@@ -158,6 +223,15 @@ namespace Related_and_Minimum_Automata.model
 			return newPartition;
 		}
 
+		///<summary>
+		///Get the next partition of a given partition
+		///</summary>
+		///<return>
+		///Partition of the machine
+		///</return>
+		///<param name="prevPartition">
+		///The previous partition to partitionate
+		///</param>
 		public List<List<MooreState>> NextPartition(List<List<MooreState>> prevPartition)
 		{
 			List<Tuple<int, List<MooreState>>> newBlocks = new List<Tuple<int, List<MooreState>>>();
@@ -207,6 +281,21 @@ namespace Related_and_Minimum_Automata.model
 			return prevPartition;
 		}
 
+		///<summary>
+		///Checks if the transitions of two given states are in the block of the partition
+		///</summary>
+		///<return>
+		///Boolean value
+		///</return>
+		///<param name="q1">
+		///Given state
+		///</param>
+		///<param name="q2">
+		///Given state
+		///</param>
+		///<param name="partition">
+		///Partition of the machine
+		///</param>
 		public bool TransitionFunctionEquals(MooreState q1, MooreState q2, List<List<MooreState>> partition)
         {
 			bool equal = true;
@@ -232,6 +321,18 @@ namespace Related_and_Minimum_Automata.model
 			return equal;
 		}
 
+		///<summary>
+		///Check if two partitions are equal
+		///</summary>
+		///<return>
+		///Boolean value
+		///</return>
+		///<param name="p1">
+		///Given partition
+		///</param>
+		///<param name="p2">
+		///Given partition
+		///</param>
 		public bool PartitionsEquals(List<List<MooreState>> p1, List<List<MooreState>> p2)
         {
 			bool equal = true;
@@ -254,6 +355,18 @@ namespace Related_and_Minimum_Automata.model
 			return equal;
         }
 
+		///<summary>
+		///Check if two blocks of a partition are equal
+		///</summary>
+		///<return>
+		///Boolean value
+		///</return>
+		///<param name="b1">
+		///Given block
+		///</param>
+		///<param name="b2">
+		///Given block
+		///</param>
 		public bool BlockEquals(List<MooreState> b1, List<MooreState> b2)
         {
 			bool equal = true;
@@ -276,21 +389,12 @@ namespace Related_and_Minimum_Automata.model
 			return equal;
 		}
 
-		public bool RemoveState(string toRemove)
-		{
-			MooreState removedState = SearchState(toRemove);
-
-			if (removedState != null)
-			{
-				States.Remove(removedState);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
+		///<summary>
+		///Add a new state
+		///</summary>
+		///<param name="toAdd">
+		///New state to add
+		///</param>
 		public void AddState(MooreState toAdd)
 		{
 			if (Initial == null)
@@ -304,6 +408,21 @@ namespace Related_and_Minimum_Automata.model
 			}
 		}
 
+		///<summary>
+		///Add a new transition to the machine
+		///</summary>
+		///<return>
+		///Boolean value indicating if the transition was added
+		///</return>
+		///<param name="origin">
+		///Identifier of the initial state of the transition
+		///</param>
+		///<param name="end">
+		///Identifier of the final state of the transition
+		///</param>
+		///<param name="input">
+		///Input of the transition
+		///</param>
 		public bool AddTransition(string origin, string end, string input)
 		{
 			MooreState originState = SearchState(origin);
@@ -319,6 +438,15 @@ namespace Related_and_Minimum_Automata.model
 			}
 		}
 
+		///<summary>
+		///Search a state of the machine
+		///</summary>
+		///<return>
+		///Found state
+		///</return>
+		///<param name="toSearch">
+		///Identifier of the state to look for
+		///</param>
 		public MooreState SearchState(string toSearch)
 		{
 			MooreState desiredState = null;
@@ -335,6 +463,12 @@ namespace Related_and_Minimum_Automata.model
 			return desiredState;
 		}
 
+		///<summary>
+		///Load a new machine
+		///</summary>
+		///<param name="rows">
+		///Rows of the table of the new machine
+		///</param>
 		public void LoadMachine(List<string[]> rows)
         {
 			LoadStates(rows);
@@ -362,6 +496,12 @@ namespace Related_and_Minimum_Automata.model
 			}
 		}
 
+		///<summary>
+		///Load the transitions of a new machine
+		///</summary>
+		///<param name="rows">
+		///Rows of the table of the new machine
+		///</param>
 		public void LoadTransitions(List<string[]> rows)
         {
 			foreach (string[] row in rows)
@@ -388,7 +528,13 @@ namespace Related_and_Minimum_Automata.model
 				}		
 			}
 		}
-		
+
+		///<summary>
+		///Get the first partition of the machine
+		///</summary>
+		///<return>
+		///First partition of the machine
+		///</return>
 		private List<List<MooreState>> FirstPartition()
 		{
 			Dictionary<string, List<MooreState>> dictionary = new Dictionary<string, List<MooreState>>();
@@ -422,6 +568,9 @@ namespace Related_and_Minimum_Automata.model
 
 		}
 
+		///<summary>
+		///Clear all the data of the machine
+		///</summary>
 		public void CleanMachine()
 		{
 			Inputs.Clear();
