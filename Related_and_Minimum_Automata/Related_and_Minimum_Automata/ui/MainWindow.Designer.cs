@@ -34,6 +34,7 @@ namespace Related_and_Minimum_Automata.ui
             this.BackButton = new System.Windows.Forms.Button();
             this.machineTable1 = new Related_and_Minimum_Automata.ui.MachineTable();
             this.enterAutomata1 = new Related_and_Minimum_Automata.ui.EnterAutomata();
+            this.TitleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ReduceMachineButton
@@ -73,7 +74,7 @@ namespace Related_and_Minimum_Automata.ui
             // 
             // machineTable1
             // 
-            this.machineTable1.Location = new System.Drawing.Point(51, 34);
+            this.machineTable1.Location = new System.Drawing.Point(51, 65);
             this.machineTable1.Name = "machineTable1";
             this.machineTable1.Size = new System.Drawing.Size(550, 201);
             this.machineTable1.TabIndex = 1;
@@ -86,11 +87,23 @@ namespace Related_and_Minimum_Automata.ui
             this.enterAutomata1.Size = new System.Drawing.Size(370, 320);
             this.enterAutomata1.TabIndex = 0;
             // 
+            // TitleLabel
+            // 
+            this.TitleLabel.AutoSize = true;
+            this.TitleLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold);
+            this.TitleLabel.Location = new System.Drawing.Point(141, 30);
+            this.TitleLabel.Name = "TitleLabel";
+            this.TitleLabel.Size = new System.Drawing.Size(375, 32);
+            this.TitleLabel.TabIndex = 6;
+            this.TitleLabel.Text = "Enter the transitions and outputs";
+            this.TitleLabel.Visible = false;
+            // 
             // FiniteStateMachine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(649, 409);
+            this.Controls.Add(this.TitleLabel);
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.OpenTableButton);
             this.Controls.Add(this.ReduceMachineButton);
@@ -99,6 +112,7 @@ namespace Related_and_Minimum_Automata.ui
             this.Name = "FiniteStateMachine";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -109,5 +123,6 @@ namespace Related_and_Minimum_Automata.ui
         private System.Windows.Forms.Button ReduceMachineButton;
         private System.Windows.Forms.Button OpenTableButton;
         private System.Windows.Forms.Button BackButton;
+        private System.Windows.Forms.Label TitleLabel;
     }
 }

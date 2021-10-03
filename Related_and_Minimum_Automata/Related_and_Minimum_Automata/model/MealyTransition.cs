@@ -3,7 +3,8 @@
 
 namespace Related_and_Minimum_Automata.model
 {
-	public class MealyTransition
+    /// <summary>Class for Mealy transitions</summary>
+    public class MealyTransition
 	{
 		public MealyState Objective { get; set; }
 		public string Input { get; set; }

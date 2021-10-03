@@ -44,6 +44,8 @@ namespace Related_and_Minimum_Automata.ui
                 ReduceMachineButton.Visible = true;
                 machineTable1.Visible = true;
                 BackButton.Visible = true;
+                TitleLabel.Visible = true;
+                TitleLabel.Text = "Enter the transitions and outputs";
             }
         }
 
@@ -55,6 +57,7 @@ namespace Related_and_Minimum_Automata.ui
                 controller.RemoveDisconnectedStates();
                 machineTable1.SetNewTable(controller.MinimumEquivalentMachine());
                 ReduceMachineButton.Visible = false;
+                TitleLabel.Text = "Minimum Equivalent Machine";
             } catch (ArgumentException ae)
             {
                 MessageBox.Show(ae.Message, "Error: Wrong input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -74,6 +77,7 @@ namespace Related_and_Minimum_Automata.ui
             ReduceMachineButton.Visible = false;
             machineTable1.Visible = false;
             BackButton.Visible = false;
+            TitleLabel.Visible = false;
         }
     }
 }

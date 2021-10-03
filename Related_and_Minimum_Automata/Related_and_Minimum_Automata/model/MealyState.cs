@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace Related_and_Minimum_Automata.model
 {
-	public class MealyState
+    /// <summary>Class for Mealy states</summary>
+    public class MealyState
 	{
 		public string Identifier { get; set; }
 		public List<MealyTransition> Transitions { get; set; }
