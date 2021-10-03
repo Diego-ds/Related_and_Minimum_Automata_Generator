@@ -81,7 +81,7 @@ namespace Related_and_Minimum_Automata.model
 				{
 					if (i == 0)
 					{
-						row[i] = "q" + Convert.ToString(rowNum);
+						row[i] = "q" + Convert.ToString(rowNum+1);
 					}
 					else
 					{
@@ -96,10 +96,21 @@ namespace Related_and_Minimum_Automata.model
 
 		public List<MealyState> CreateMinimumEquivalent(List<List<MealyState>> minimumPartition)
 		{
+
+			string finalpart = "";
+            foreach (List<MealyState> s in minimumPartition )
+            {
+				foreach(MealyState m in s)
+                {
+					finalpart += m.Identifier + " ";
+                }
+				finalpart += "\n";
+            }
+			Console.WriteLine("Particion final: " + finalpart);
 			List<MealyState> newStates = new List<MealyState>();
 			for (int i = 0; i < minimumPartition.Count; i++)
 			{
-				newStates.Add(new MealyState("q" + Convert.ToString(i)));
+				newStates.Add(new MealyState("q" + Convert.ToString(i+1)));
 			}
 
 			foreach (string input in Inputs)
@@ -107,6 +118,7 @@ namespace Related_and_Minimum_Automata.model
 				for (int i = 0; i < newStates.Count; i++)
 				{
 					Tuple<MealyState,string> os = FindNewTransition(input, i, newStates, minimumPartition);
+					Console.WriteLine("State: " + newStates[i].Identifier + " Input: " + input + " Objective: " + os.Item1.Identifier + " Output: " + os.Item2);
 					newStates[i].AddTransition(new MealyTransition(os.Item1, input, os.Item2));
 				}
 			}
@@ -136,12 +148,22 @@ namespace Related_and_Minimum_Automata.model
 		public List<List<MealyState>> PartitionateMachine()
 		{
 			List<List<MealyState>> newPartition = FirstPartition();
+			string partitions = "";
+            /*foreach (List<MealyState> p in newPartition)
+            {
+				foreach(MealyState s in p)
+                {
+					partitions += s.Identifier + " ";
+                }
+				partitions += "\n";
+            }
+			Console.WriteLine(partitions);*/
 			List<List<MealyState>> prevPartition = new List<List<MealyState>>();
 
 			while (!PartitionsEquals(newPartition, prevPartition))
 			{
-				prevPartition = newPartition;
-				newPartition = NextPartition(prevPartition);
+				prevPartition = new List<List<MealyState>>(newPartition);
+				newPartition = NextPartition(new List<List<MealyState>>(prevPartition));
 			}
 			return newPartition;
 		}
@@ -162,7 +184,8 @@ namespace Related_and_Minimum_Automata.model
 		public List<List<MealyState>> NextPartition(List<List<MealyState>> prevPartition)
 		{
 			List<List<MealyState>> newBlocks = new List<List<MealyState>>();
-
+			int indexPartition = 0;
+			string p = "";
 			foreach (List<MealyState> block in prevPartition)
 			{
 				List<MealyState> differentStates = new List<MealyState>();
@@ -171,21 +194,36 @@ namespace Related_and_Minimum_Automata.model
 				{
 					if (!TransitionFunctionEquals(block[0], block[i], prevPartition))
 					{
-						differentStates.Add(block[i]);
-						block.Remove(block[i]);
+						differentStates.Add(block[i]);						
 					}
+				}				
+				foreach(MealyState s in differentStates)
+                {
+					p += s.Identifier + " ";
+                }
+				p += "\n";
+				if (differentStates.Count >= 1)
+				{
+					foreach(MealyState s in differentStates)
+                    {
+						block.Remove(s);
+                    }
+					newBlocks.Add(differentStates);
+					indexPartition++;
 				}
-				newBlocks.Add(differentStates);
+				
 			}
-			foreach (List<MealyState> newBlock in newBlocks)
-			{
-				prevPartition.Add(newBlock);
-			}
+			Console.WriteLine(p);
+					
+			prevPartition.InsertRange(indexPartition,newBlocks);
+			
 			return prevPartition;
 		}
 
 		public bool TransitionFunctionEquals(MealyState q1, MealyState q2, List<List<MealyState>> partition)
 		{
+			Console.WriteLine("Q1: " + q1.Identifier);
+			Console.WriteLine("Q2: " + q2.Identifier);
 			bool equal = true;
 			List<MealyState> ts1 = new List<MealyState>();
 			List<MealyState> ts2 = new List<MealyState>();
@@ -194,6 +232,8 @@ namespace Related_and_Minimum_Automata.model
 			{
 				ts1.Add(q1.Transitions[i].Objective);
 				ts2.Add(q2.Transitions[i].Objective);
+				Console.WriteLine("TS1 EN INPUT " + i + ": " + q1.Transitions[i].Objective.Identifier);
+				Console.WriteLine("TS2 EN INPUT " + i + ": " + q2.Transitions[i].Objective.Identifier);
 			}
 			foreach (List<MealyState> block in partition)
 			{
@@ -202,10 +242,13 @@ namespace Related_and_Minimum_Automata.model
 					if (block.Contains(ts1[i]) && !block.Contains(ts2[i]) ||
 							(!block.Contains(ts1[i]) && block.Contains(ts2[i])))
 					{
+						Console.WriteLine("FALSO EN ts1: " + ts1[i].Identifier);
+						Console.WriteLine("FALSO EN ts2: " + ts2[i].Identifier);
 						equal = false;
 					}
 				}
 			}
+			Console.WriteLine("------------------------------");
 			return equal;
 		}
 
@@ -315,8 +358,10 @@ namespace Related_and_Minimum_Automata.model
 				for (int i = 1; i < row.Length; i++)
 				{
 					string[] objectiveAndOutput = row[i].Split(',');
-					Outputs.Add(objectiveAndOutput[1]);
-					Console.WriteLine(objectiveAndOutput[1]);
+                    if (!Outputs.Contains(objectiveAndOutput[1]))
+                    {
+						Outputs.Add(objectiveAndOutput[1]);
+					}										
 					AddTransition(row[0], objectiveAndOutput[0], Convert.ToString(i - 1), objectiveAndOutput[1]);
 				}
 			}
