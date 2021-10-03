@@ -51,8 +51,8 @@ namespace Related_and_Minimum_Automata.ui
         {
             controller.LoadMachine(machineTable1.GetRowsData());
             controller.RemoveDisconnectedStates();
-            //partition
-            //load DataGridView
+            machineTable1.SetNewTable(controller.MinimumEquivalentMachine());
+            ReduceMachineButton.Visible = false;
         }
 
         private void BackButton_Click(object sender, EventArgs e)

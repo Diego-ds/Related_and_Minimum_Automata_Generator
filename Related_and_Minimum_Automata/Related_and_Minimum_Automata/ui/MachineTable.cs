@@ -127,5 +127,11 @@ namespace Related_and_Minimum_Automata.ui
             }
             return rows;
         }
+        public void SetNewTable(DataTable table)
+        {
+            TableMachine.DataSource = table;
+        }
     }
+
+   
 }

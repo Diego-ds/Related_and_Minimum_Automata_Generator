@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,16 +72,18 @@ namespace Related_and_Minimum_Automata.model
             }
         }
 
-        public void MinimumEquivalentMachine()
+        public DataTable MinimumEquivalentMachine()
         {
             if (CurrentMachine.Equals("Mealy"))
             {
-                DataTable minimumMachine = MealyMachine.ReduceMachine();
+                return MealyMachine.ReduceMachine();
             }
             else if (CurrentMachine.Equals("Moore"))
             {
-                DataTable minimumMachine = MooreMachine.ReduceMachine();
+                return MooreMachine.ReduceMachine();
             }
+
+            return null;
         }
     }
 }

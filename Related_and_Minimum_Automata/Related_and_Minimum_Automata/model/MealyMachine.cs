@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,37 @@ namespace Related_and_Minimum_Automata.model
 		{
 			List<List<MealyState>> minimumPartition = PartitionateMachine();
 			List<MealyState> minimumMachine = CreateMinimumEquivalent(minimumPartition);
+			DataTable table = new DataTable(); 
+
+			table.Columns.Add("States");
+			for (int i = 0; i < Inputs.Count; i++)
+			{
+				table.Columns.Add(Convert.ToString(i));
+			}
+
+			for (int j = 0; j < minimumMachine.Count; j++)
+			{
+				table.Rows.Add();
+			}
+
+			int rowNum = 0;
+			foreach (DataRow row in table.Rows)
+			{
+				for (int i = 0; i < Inputs.Count + 1; i++)
+				{
+					if (i == 0)
+					{
+						row[i] = "q" + Convert.ToString(rowNum);
+					}
+					else
+					{
+						row[i] = minimumMachine[rowNum].Transitions[i-1].Objective.Identifier+","+ minimumMachine[rowNum].Transitions[i-1].Output;
+					}
+				}
+				rowNum++;
+			}
+			return table;
+			
 		}
 
 		public List<MealyState> CreateMinimumEquivalent(List<List<MealyState>> minimumPartition)
