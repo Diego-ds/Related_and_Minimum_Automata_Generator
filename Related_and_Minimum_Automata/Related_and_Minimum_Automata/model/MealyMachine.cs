@@ -118,9 +118,48 @@ namespace Related_and_Minimum_Automata.model
 				for (int i = 1; i < row.Length; i++)
 				{
 					string[] objectiveAndOutput = row[i].Split(',');
+					Outputs.Add(objectiveAndOutput[1]);
+					Console.WriteLine(objectiveAndOutput[1]);
 					AddTransition(row[0], objectiveAndOutput[0], Convert.ToString(i - 1), objectiveAndOutput[1]);
 				}
 			}
+		}
+
+		private List<List<MealyState>> firstPartition()
+		{ 
+			Dictionary<string,List<MealyState>> dictionary = new Dictionary<string,List <MealyState>>();
+			List<List<MealyState>> partition = new List<List<MealyState>>();
+
+			for(int i= 0;i<States.Count;i++)
+            {
+				string output = "";
+				foreach(MealyTransition transition in States[i].Transitions)
+                {
+					output += transition.Output;
+                }
+
+                if (dictionary.ContainsKey(output))
+                {
+					dictionary[output].Add(States[i]);
+                }
+                else
+                {
+                    List<MealyState> newList = new List<MealyState>
+                    {
+                        States[i]
+                    };
+                    dictionary.Add(output, newList);
+                }
+
+            }
+
+			foreach(List<MealyState> partitions in dictionary.Values)
+            {
+				partition.Add(partitions);
+            }
+
+			return partition;
+
 		}
 
 		public void CleanMachine()
