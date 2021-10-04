@@ -62,7 +62,7 @@ namespace Related_and_Minimum_Automata.ui
             {
                 MessageBox.Show(ae.Message, "Error: Wrong input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 GoBack();
-            }       
+            }      
         }
 
         private void BackButton_Click(object sender, EventArgs e)
